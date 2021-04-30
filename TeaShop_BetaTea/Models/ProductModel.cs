@@ -20,11 +20,9 @@ namespace TeaShop_BetaTea.Models
         [Display(Name = "Цена")]
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public int? ReviewId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual CategoryModel Category { get; set; }
-        [ForeignKey("ReviewId")]
-        public ReviewModel Review { get; set; }
+
 
     }
 }

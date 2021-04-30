@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeaShop_BetaTea.Models
 {
@@ -10,10 +8,22 @@ namespace TeaShop_BetaTea.Models
     {
         [Key]
         public int ReviewId { get; set; }
+
+        [Display(Name = "Пользователь")]
         public string Username { get; set; }
+
+        [Display(Name = "Оценка")]
         public int Rate { get; set; }
+
+        [Display(Name = "Описание")]
         public string Description { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime Date { get; set; }
+
+        public int ProductId { get; set; }
+
+        [ForeignKey("ProductId")]
+        public ProductModel Product { get; set; }
     }
 }

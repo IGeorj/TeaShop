@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TeaShop_BetaTea.Models;
@@ -13,7 +14,7 @@ namespace TeaShop_BetaTea.Controllers
             List<ProductModel> model = new List<ProductModel>();
             using (DataContext db = new DataContext())
             {
-                model = db.Products.Include("Category").Include("Review").ToList();
+                model = db.Products.Include("Category").ToList();
             }
             return View(model);
         }
@@ -32,6 +33,7 @@ namespace TeaShop_BetaTea.Controllers
         {
             return View(GetProductListByCategoryId(3));
         }
+
         public ActionResult ProductDetails(int id)
         {
             ProductViewModel model = new ProductViewModel();
@@ -39,34 +41,48 @@ namespace TeaShop_BetaTea.Controllers
             model.Reviews = GetReviewListByProductId(id);
             return View(model);
         }
+
         private List<ReviewModel> GetReviewListByProductId(int id)
         {
             using (DataContext db = new DataContext())
             {
-                int? reviewId = db.Products.Find(id).ReviewId;
-                if(reviewId == null)
-                {
-                    return new List<ReviewModel>();
-                }
-                else
-                {
-                    return db.Reviews.Where(x => x.ReviewId == (int)reviewId).ToList();
-                }
+                return db.Reviews.Where(x => x.ProductId == id).ToList();
             }
         }
+
         private List<ProductModel> GetProductListById(int id)
         {
             using (DataContext db = new DataContext())
             {
-                return db.Products.Include("Category").Include("Review").Where(x => x.ProductId == id).ToList();
+                return db.Products.Include("Category").Where(x => x.ProductId == id).ToList();
             }
         }
+
         private List<ProductModel> GetProductListByCategoryId(int id)
         {
             using (DataContext db = new DataContext())
             {
-                return db.Products.Include("Category").Include("Review").Where(x => x.CategoryId == id).ToList();
+                return db.Products.Include("Category").Where(x => x.CategoryId == id).ToList();
             }
+        }
+
+        [HttpPost]
+        public ActionResult SendReview(int ProductId, int UserRate, string UserName, string ReviewDescription)
+        {
+            using (DataContext db = new DataContext())
+            {
+                ReviewModel review = new ReviewModel
+                {
+                    Username = UserName,
+                    Date = DateTime.Now,
+                    Description = ReviewDescription,
+                    Rate = UserRate,
+                    ProductId = ProductId
+                };
+                db.Reviews.Add(review);
+                db.SaveChanges();
+            }
+            return Redirect($"ProductDetails/{ProductId}");
         }
     }
 }

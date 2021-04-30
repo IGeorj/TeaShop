@@ -88,11 +88,30 @@ namespace TeaShop_BetaTea.Initializers
             ReviewModel r1 = new ReviewModel
             {
                 Username = "Тестовый пользователь",
-                Description = "Тестовое описание",
+                Description = "Чай хороший",
                 Date = DateTime.Now,
-                Rate = 5
+                Rate = 5,
+                ProductId = 1
+            };
+            ReviewModel r2 = new ReviewModel
+            {
+                Username = "Тестовый пользователь",
+                Description = "Чай плохой",
+                Date = DateTime.Now,
+                Rate = 1,
+                ProductId = 2
+            };
+            ReviewModel r3 = new ReviewModel
+            {
+                Username = "Тестовый пользователь",
+                Description = "Чай нормальный",
+                Date = DateTime.Now,
+                Rate = 3,
+                ProductId = 1
             };
             db.Reviews.Add(r1);
+            db.Reviews.Add(r2);
+            db.Reviews.Add(r3);
             db.SaveChanges();
         }
     }

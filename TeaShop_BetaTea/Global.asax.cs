@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using TeaShop_BetaTea.Initializers;
+using TeaShop_BetaTea.Models;
 
 namespace TeaShop_BetaTea
 {
@@ -14,8 +15,9 @@ namespace TeaShop_BetaTea
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DataInitializer());
-            
+            Database.SetInitializer<DataContext>(new DataInitializer());
+            Database.SetInitializer<ApplicationDbContext>(new AccountInitializer());
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
