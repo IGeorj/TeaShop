@@ -13,5 +13,7 @@ namespace TeaShop_BetaTea.Models
         public string Username { get; set; }
         public int Rate { get; set; }
         public string Description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public DateTime Date { get; set; }
     }
 }

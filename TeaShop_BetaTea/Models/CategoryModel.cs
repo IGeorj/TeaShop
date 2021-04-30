@@ -10,7 +10,9 @@ namespace TeaShop_BetaTea.Models
     {
         [Key]
         public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+        [Display(Name = "Категория")]
+        public string Name { get; set; }
+        [Display(Name = "Описание")]
         public string Description { get; set; }
         public List<ProductModel> Products { get; set; }
     }

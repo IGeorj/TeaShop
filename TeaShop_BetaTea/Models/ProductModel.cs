@@ -11,15 +11,18 @@ namespace TeaShop_BetaTea.Models
     {
         [Key]
         public int ProductId { get; set; }
+        [Display(Name = "Изображение")]
         public string Image { get; set; }
+        [Display(Name = "Название")]
         public string Name { get; set; }
+        [Display(Name = "Описание")]
         public string Description { get; set; }
-        public string Type { get; set; }
+        [Display(Name = "Цена")]
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public int ReviewId { get; set; }
+        public int? ReviewId { get; set; }
         [ForeignKey("CategoryId")]
-        public CategoryModel Category { get; set; }
+        public virtual CategoryModel Category { get; set; }
         [ForeignKey("ReviewId")]
         public ReviewModel Review { get; set; }
 
