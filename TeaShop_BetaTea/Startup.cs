@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(TeaShop_BetaTea.Startup))]
+
 namespace TeaShop_BetaTea
 {
     public partial class Startup

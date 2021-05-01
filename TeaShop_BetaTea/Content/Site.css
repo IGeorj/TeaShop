@@ -58,3 +58,16 @@ textarea {
     .rating:hover > input:checked ~ label:before {
         opacity: 0.4
     }
+.list-group {
+    margin: auto;
+    margin-right:80%;
+    padding-top:6px;
+    border-radius: 0px;
+}
+
+.lead {
+    margin: auto;
+    left: 0;
+    right: 0;
+    padding-top: 10%;
+}

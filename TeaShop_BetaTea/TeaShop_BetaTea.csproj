@@ -174,10 +174,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -369,17 +371,18 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Catalog\Index.cshtml" />
     <Content Include="Views\Catalog\BlackTea.cshtml" />
     <Content Include="Views\Catalog\GreenTea.cshtml" />
     <Content Include="Views\Catalog\Coffee.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Catalog\ProductDetails.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

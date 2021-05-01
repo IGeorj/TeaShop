@@ -16,7 +16,6 @@ namespace TeaShop_BetaTea
         protected void Application_Start()
         {
             Database.SetInitializer<DataContext>(new DataInitializer());
-            Database.SetInitializer<ApplicationDbContext>(new AccountInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

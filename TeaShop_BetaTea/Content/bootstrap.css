@@ -5858,10 +5858,13 @@ a.badge-dark:focus, a.badge-dark.focus {
 }
 
 .close {
-  float: right;
-  font-size: 1.5rem;
+  position:absolute;
+  right:0;
+  top:0;
+  z-index:99;
+  font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1;
+  line-height: 0.5;
   color: #000;
   text-shadow: 0 1px 0 #fff;
   opacity: .5;

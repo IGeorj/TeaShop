@@ -9,7 +9,7 @@ using TeaShop_BetaTea.Models;
 
 namespace TeaShop_BetaTea.Initializers
 {
-    public class AccountInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class AccountInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {

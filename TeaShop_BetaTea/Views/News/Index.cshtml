@@ -18,6 +18,12 @@
                         <a href="#" class="stretched-link">Подробнее...</a>
                     </div>
                     <div class="col-auto d-none d-lg-block">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Delete", "News")" class="close" style="outline:none; color:red;" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                        }
                         <img class="bd-placeholder-img" style="width:200px" src="@Url.Content(item.Image)" alt="@Html.DisplayFor(modelItem => item.Title)">
                         <rect width="100%" height="100%" fill="#55595c"></rect>
                     </div>

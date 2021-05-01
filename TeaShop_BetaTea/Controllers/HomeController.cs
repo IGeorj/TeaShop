@@ -20,16 +20,6 @@ namespace TeaShop_BetaTea.Controllers
 
             return View();
         }
-        public ActionResult News()
-        {
-            ViewBag.Message = "Your application description page.";
-            List<NewsModel> model = new List<NewsModel>();
-            using (DataContext db = new DataContext())
-            {
-                model = db.News.ToList();
-            }
-            return View(model);
-        }
 
         public ActionResult Contact()
         {
