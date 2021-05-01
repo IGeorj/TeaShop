@@ -35,9 +35,9 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu" style="background-color: #212121;">
-                                @Html.ActionLink("Чёрный чай", "BlackTea", "Catalog", new { area = "" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
-                                @Html.ActionLink("Зелёный чай", "GreenTea", "Catalog", new { area = "" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
-                                @Html.ActionLink("Кофе", "Coffee", "Catalog", new { area = "" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
+                                @Html.ActionLink("Чёрный чай", "Index", "Catalog", new { area = "", category = "Чёрный чай" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
+                                @Html.ActionLink("Зелёный чай", "Index", "Catalog", new { area = "", category = "Зелёный чай" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
+                                @Html.ActionLink("Кофе", "Index", "Catalog", new { area = "", category= "Кофе" }, new { @class = "dropdown-item", style = "color: rgba(255,255,255,0.5)" })
                             </div>
                         </div>
                     </li>

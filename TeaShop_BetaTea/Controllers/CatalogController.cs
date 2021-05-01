@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TeaShop_BetaTea.Models;
 
@@ -9,31 +11,19 @@ namespace TeaShop_BetaTea.Controllers
     public class CatalogController : Controller
     {
         // GET: Catalog
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string category)
         {
-            List<ProductModel> model = new List<ProductModel>();
+            List<ProductModel> model;
             using (DataContext db = new DataContext())
             {
-                model = db.Products.Include("Category").ToList();
+                model = await db.Products.Include("Category").ToListAsync();
+                if (!String.IsNullOrEmpty(category))
+                {
+                    model = await db.Products.Include("Category").Where(x => x.Category.Name == category).ToListAsync();
+                }
+                return View(model);
             }
-            return View(model);
         }
-
-        public ActionResult BlackTea()
-        {
-            return View(GetProductListByCategoryId(1));
-        }
-
-        public ActionResult GreenTea()
-        {
-            return View(GetProductListByCategoryId(2));
-        }
-
-        public ActionResult Coffee()
-        {
-            return View(GetProductListByCategoryId(3));
-        }
-
         public ActionResult ProductDetails(int id)
         {
             ProductViewModel model = new ProductViewModel();

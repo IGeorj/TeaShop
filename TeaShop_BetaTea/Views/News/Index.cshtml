@@ -5,6 +5,23 @@
 }
 <div class="container mt-3">
     <h2 class="text-center mb-3">Новости</h2>
+    @using (Html.BeginForm("Index", "News", FormMethod.Get))
+    {
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" name="SearchString" class="form-control" placeholder="Поиск...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="text-right mt-3 mb-3">
+            <a href="@Url.Action("AddNews", "News")" class="btn btn-success">Добавить</a>
+        </div>
+    }
     <div class="row mb-2">
         @foreach (var item in Model)
         {
@@ -20,7 +37,7 @@
                     <div class="col-auto d-none d-lg-block">
                         @if (User.IsInRole("Admin"))
                         {
-                            <a href="@Url.Action("Delete", "News")" class="close" style="outline:none; color:red;" aria-label="Close">
+                            <a href="@Url.Action("Delete", "News", new { id = item.NewsId})" class="close" style="outline:none; color:red;" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </a>
                         }

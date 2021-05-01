@@ -10,7 +10,7 @@ namespace TeaShop_BetaTea.Models
         public int NewsId { get; set; }
         [Display(Name = "Заголовок")]
         public string Title { get; set; }
-        [Display(Name = "Тема")]
+        [Display(Name = "Топик")]
         public string Topic { get; set; }
         [Display(Name = "Изображение")]
         public string Image { get; set; }
