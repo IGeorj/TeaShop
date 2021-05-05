@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using TeaShop_BetaTea.Models;
 
@@ -14,6 +11,7 @@ namespace TeaShop_BetaTea.Controllers
         {
             return View();
         }
+
         public ActionResult AddToCart(int id)
         {
             string temp2 = Session["asd"] as string;
@@ -48,38 +46,13 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("Index");
         }
-        //public ActionResult AddToCart(int id)
-        //{
-        //    List<CartItemModel> items = (List<CartItemModel>)Session["Cart"];
-        //    if(items == null)
-        //    {
-        //        items = new List<CartItemModel>();
-        //        using (DataContext db = new DataContext())
-        //        {
-        //            items.Add(new CartItemModel { Product = db.Products.Find(id), Quantity = 1 });
-        //            Session["Сart"] = items;
-        //            List<CartItemModel> temp = (List<CartItemModel>)Session["Cart"];
-        //        }
-        //    }
-        //    else if (ItemInCart(id))
-        //    {
-        //        IncreaseQuantity(id);
-        //    }
-        //    else
-        //    {
-        //        using (DataContext db = new DataContext())
-        //        {
-        //            items.Add(new CartItemModel { Product = db.Products.Find(id), Quantity = 1 });
-        //            Session["Сart"] = items;
-        //        }
-        //    }
-        //    return RedirectToAction("Index");
-        //}
+
         public ActionResult Increase(int id)
         {
             IncreaseQuantity(id);
             return RedirectToAction("Index");
         }
+
         public ActionResult Decrease(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
@@ -95,6 +68,7 @@ namespace TeaShop_BetaTea.Controllers
             Session["cart"] = items;
             return RedirectToAction("Index");
         }
+
         public ActionResult Delete(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
@@ -107,7 +81,7 @@ namespace TeaShop_BetaTea.Controllers
                     break;
                 }
             }
-            if(items.Count == 0)
+            if (items.Count == 0)
             {
                 Session["cart"] = null;
             }
@@ -117,6 +91,7 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("Index");
         }
+
         public void IncreaseQuantity(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
@@ -131,6 +106,7 @@ namespace TeaShop_BetaTea.Controllers
             }
             Session["Сart"] = items;
         }
+
         private bool ItemInCart(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];

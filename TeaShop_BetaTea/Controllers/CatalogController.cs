@@ -11,19 +11,27 @@ namespace TeaShop_BetaTea.Controllers
     public class CatalogController : Controller
     {
         // GET: Catalog
-        public async Task<ActionResult> Index(string category)
+        public async Task<ActionResult> Index(string category, string searchString)
         {
             List<ProductModel> model;
             using (DataContext db = new DataContext())
             {
                 model = await db.Products.Include("Category").ToListAsync();
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    model = model.Where(
+                        x => x.Name.Contains(searchString) ||
+                        x.Description.Contains(searchString))
+                        .ToList();
+                }
                 if (!String.IsNullOrEmpty(category))
                 {
-                    model = await db.Products.Include("Category").Where(x => x.Category.Name == category).ToListAsync();
+                    model = model.Where(x => x.Category.Name == category).ToList();
                 }
                 return View(model);
             }
         }
+
         public ActionResult ProductDetails(int id)
         {
             ProductViewModel model = new ProductViewModel();

@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using TeaShop_BetaTea.Models;
 
 namespace TeaShop_BetaTea.Initializers
@@ -13,15 +9,6 @@ namespace TeaShop_BetaTea.Initializers
     {
         protected override void Seed(DataContext db)
         {
-            NewsModel n1 = new NewsModel
-            {
-                Title = "Первая новость",
-                ShortDescription = "Первое краткое описание",
-                FullDescription = "Первое полное описание",
-                Image = "~/Images/MissingImg.jpg",
-                Date = DateTime.Now,
-                Topic = "Акция"
-            };
             NewsModel n2 = new NewsModel
             {
                 Title = "Вторая новость",
@@ -31,6 +18,15 @@ namespace TeaShop_BetaTea.Initializers
                 Date = DateTime.Now,
                 Topic = "Блог"
             };
+            NewsModel n1 = new NewsModel
+            {
+                Title = "Первая новость",
+                ShortDescription = "Первое краткое описание",
+                FullDescription = "Первое полное описание",
+                Image = "~/Images/MissingImg.jpg",
+                Date = DateTime.Now,
+                Topic = "Акция"
+            };
             db.News.Add(n1);
             db.News.Add(n2);
             db.SaveChanges();
@@ -39,19 +35,16 @@ namespace TeaShop_BetaTea.Initializers
             {
                 Name = "Чёрный чай",
                 Description = "Описание категории чёрного чая"
-
             };
             CategoryModel c2 = new CategoryModel
             {
                 Name = "Зелёный чай",
                 Description = "Описание категории зелёного чая"
-
             };
             CategoryModel c3 = new CategoryModel
             {
                 Name = "Кофе",
                 Description = "Описание категории кофе"
-
             };
             db.Categories.Add(c1);
             db.Categories.Add(c2);

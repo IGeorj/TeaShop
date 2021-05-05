@@ -8,7 +8,7 @@
     @using (Html.BeginForm("Index", "News", FormMethod.Get))
     {
         <div class="input-group mb-3 justify-content-end">
-            <input type="text" name="SearchString" class="form-control" placeholder="Поиск...">
+            <input type="text" name="searchString" class="form-control" placeholder="Поиск...">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">
                         <i class="fa fa-search"></i>
@@ -46,22 +46,6 @@
                     </div>
                 </div>
             </div>
-            @*<tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Image)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.NewsId }) |
-                        @Html.ActionLink("Details", "Details", new { id=item.NewsId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.NewsId })
-                    </td>
-                </tr>*@
         }
     </div>
 </div>

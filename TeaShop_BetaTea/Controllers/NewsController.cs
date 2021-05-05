@@ -16,24 +16,25 @@ namespace TeaShop_BetaTea.Controllers
         // GET: News
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult> Index(string SearchString)
+        public async Task<ActionResult> Index(string searchString)
         {
             List<NewsModel> model;
             using (DataContext db = new DataContext())
             {
-                model = await db.News.ToListAsync();
-                if (!String.IsNullOrEmpty(SearchString))
+                model = await db.News.OrderByDescending(x => x.Date).ToListAsync();
+                if (!String.IsNullOrEmpty(searchString))
                 {
-                    model = await db.News
-                        .Where(
-                        x => x.Title.Contains(SearchString) ||
-                        x.Topic.Contains(SearchString) ||
-                        x.ShortDescription.Contains(SearchString))
-                        .ToListAsync();
+                    searchString = searchString.ToLower();
+                    model = model.Where(
+                        x => x.Title.ToLower().Contains(searchString) ||
+                        x.Topic.ToLower().Contains(searchString) ||
+                        x.ShortDescription.ToLower().Contains(searchString))
+                        .ToList();
                 }
             }
             return View(model);
         }
+
         public ActionResult Delete(int id)
         {
             using (DataContext db = new DataContext())
@@ -43,6 +44,7 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public ActionResult Create(HttpPostedFileBase Image, NewsModel news)
         {
@@ -65,6 +67,7 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("AddNews");
         }
+
         public ActionResult AddNews()
         {
             return View();

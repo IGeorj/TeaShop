@@ -6,20 +6,39 @@
 
 <div class="container mt-3 text-center">
     <h2>Каталог</h2>
+    @using (Html.BeginForm("Index", "News", FormMethod.Get))
+    {
+        <div class="input-group mb-3 justify-content-end">
+            <input type="text" name="searchString" class="form-control" placeholder="Поиск...">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="text-right mt-3 mb-3">
+            <a href="@Url.Action("AddProduct", "Catalog")" class="btn btn-success">Добавить</a>
+        </div>
+    }
     <br>
     <div class="row">
         @foreach (var item in Model)
         {
-            <div class="col-lg-4">
-                <img class="bd-placeholder-img rounded-circle" alt="@Html.DisplayFor(modelItem => item.Name)" src="@Url.Content(item.Image)" width="140" height="140" /><rect width="100%" height="100%" fill="#777"></rect>
+        <div class="col-lg-4">
+            <img class="bd-placeholder-img rounded-circle" alt="@Html.DisplayFor(modelItem => item.Name)" src="@Url.Content(item.Image)" width="140" height="140" /><rect width="100%" height="100%" fill="#777"></rect>
 
-                <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
-                <p>@Html.DisplayFor(modelItem => item.Description)</p>
-                <div class="row justify-content-center">
-                    <p><a class="btn btn-dark mr-2" href="@Url.Action("ProductDetails", "Catalog", new { id = item.ProductId })">Подробнее...</a></p>
-                    <p><a class="btn btn-success ml-2" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a></p>
-                </div>
+            <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+            <h4>@Html.DisplayFor(modelItem => item.Price) р.</h4>
+            <br>
+            <div class="row justify-content-center">
+                <p><a class="btn btn-dark mr-2" href="@Url.Action("ProductDetails", "Catalog", new { id = item.ProductId })">Подробнее...</a></p>
+                <p><a class="btn btn-success ml-2" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a></p>
             </div>
+        </div>
         }
     </div>
 </div>

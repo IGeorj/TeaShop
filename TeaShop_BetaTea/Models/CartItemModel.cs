@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TeaShop_BetaTea.Models
+﻿namespace TeaShop_BetaTea.Models
 {
     public class CartItemModel
     {
