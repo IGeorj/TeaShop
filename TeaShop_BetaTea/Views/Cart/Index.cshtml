@@ -1,83 +1,109 @@
 ﻿<div class="container mt-3">
-@if (Session["cart"] != null)
-{
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h1 class="jumbotron-heading">Ваши товары</h1>
-        </div>
-    </section>
-
-    <div class="container mb-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col"> </th>
-                                <th scope="col">Название</th>
-                                <th scope="col" class="text-center">Количество</th>
-                                <th scope="col" class="text-right">Цена</th>
-                                <th> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in (List<TeaShop_BetaTea.Models.CartItemModel>)Session["cart"])
-                            {
-                                <tr>
-                                    <td><img width="100" src="@Url.Content(item.Product.Image)" alt="@item.Product.Name"/> </td>
-                                    <td>@item.Product.Name</td>
-                                    <td>
-                                        <div class="col mb-2">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-8">
-                                                    <input class="form-control" type="text" readonly value="@item.Quantity" />
-                                                </div>
-                                                <div class="col-sm-12 col-md-1 text-left">
-                                                    <a href="@Url.Action("Increase", "Cart", new { id = item.Product.ProductId})">
-                                                        <i class="fa fa-plus"></i>
-                                                    </a>
-                                                    <a href="@Url.Action("Decrease", "Cart", new { id = item.Product.ProductId})">
-                                                        <i class="fa fa-minus"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">@(item.Product.Price * item.Quantity)</td>
-                                    <td class="text-right"><a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Cart", new { id = item.Product.ProductId})"><i class="fa fa-trash-o"></i> </a> </td>
-                                </tr>
-                            }
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><strong>Всего</strong></td>
-                                    <td class="text-right"><strong>@(Session["cartTotal"])</strong></td>
-                                </tr>
-                            </tbody>
-                    </table>
-                </div>
+    @if (Session["cart"] != null)
+    {
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Ваши товары</h1>
             </div>
-            <div class="col mb-2">
+        </section>
+        using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="container mb-4">
                 <div class="row">
-                    <div class="col-sm-12  col-md-6">
-                        @Html.ActionLink("Продолжить покупки", "Index", "Catalog", new { area = "" }, new { @class = "btn btn-block btn-light" })
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> </th>
+                                        <th scope="col">Название</th>
+                                        <th scope="col" class="text-center">Количество</th>
+                                        <th scope="col" class="text-right">Цена</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in (List<TeaShop_BetaTea.Models.CartItemModel>)Session["cart"])
+                                    {
+                                        <tr>
+                                            <td><img width="100" src="@Url.Content(item.Product.Image)" alt="@item.Product.Name" /> </td>
+                                            <td>@item.Product.Name</td>
+                                            <td>
+                                                <div class="col mb-2">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-8">
+                                                            <input class="form-control" type="text" readonly value="@item.Quantity" />
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-1 text-left">
+                                                            <a href="@Url.Action("Increase", "Cart", new { id = item.Product.ProductId })">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                            <a href="@Url.Action("Decrease", "Cart", new { id = item.Product.ProductId })">
+                                                                <i class="fa fa-minus"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">@(item.Product.Price * item.Quantity)</td>
+                                            <td class="text-right"><a class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Cart", new { id = item.Product.ProductId })"><i class="fa fa-trash-o"></i> </a> </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><strong>Всего</strong></td>
+                                        <td class="text-right"><strong>@(Session["cartTotal"])</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 mb-3">
+                                <label for="inputPhone" class="col-lg-2 control-label pl-1">Телефон</label>
+                                <input type="text" class="form-control" required="required"
+                                       id="inputPhone" name="inputPhone" placeholder="" value="@ViewBag.Phone">
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="inputStreet" class="col-lg-2 control-label pl-1">Улица</label>
+                                <input type="text" class="form-control" required="required"
+                                       id="inputStreet" name="inputStreet" placeholder="" value="">
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="inputHouse" class="col-lg-2 control-label pl-1">Дом</label>
+                                <input type="text" class="form-control" required="required"
+                                       id="inputHouse" name="inputHouse" placeholder="" value="">
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="inputApartment" class="col-lg-2 control-label pl-1" onkeypress="return event.charCode >= 48" min="1">Квартира</label>
+                                <input type="number" class="form-control" required="required"
+                                       id="inputApartment" name="inputApartment" placeholder="" value="e">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 text-right">
-                        <button class="btn btn-lg btn-block btn-success text-uppercase">Оформить заказ</button>
+                    <div class="col mb-2">
+                        <div class="row">
+                            <div class="col-sm-12  col-md-6">
+                                @Html.ActionLink("Продолжить покупки", "Index", "Catalog", new { area = "" }, new { @class = "btn btn-block btn-light" })
+                            </div>
+                            <div class="col-sm-12 col-md-6 text-right">
+                                <button type="submit" class="btn btn-lg btn-block btn-success text-uppercase">Оформить заказ</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-}
-else
-{
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h1 class="jumbotron-heading">Ваша корзина пуста...</h1>
-        </div>
-    </section>
-}
+        }
+    }
+    else
+    {
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Ваша корзина пуста...</h1>
+                <h2 class="text-success">@ViewBag.StatusMessage</h2>
+            </div>
+        </section>
+    }
 </div>

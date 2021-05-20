@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using TeaShop_BetaTea.Models;
 
@@ -7,8 +11,20 @@ namespace TeaShop_BetaTea.Controllers
     public class CartController : Controller
     {
         // GET: Cart
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string orderCreated)
         {
+            if (string.IsNullOrEmpty(orderCreated))
+            {
+                ViewBag.StatusMessage = "";
+            }
+            else
+            {
+                ViewBag.StatusMessage = "Вы успешно оформили заказ!";
+            }
+            var userId = User.Identity.GetUserId();
+
+            ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ViewBag.Phone = await userManager.GetPhoneNumberAsync(userId);
             return View();
         }
 
@@ -116,6 +132,13 @@ namespace TeaShop_BetaTea.Controllers
                     return true;
             }
             return false;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateOrder()
+        {
+            Session["cart"] = null;
+            return RedirectToAction("Index", new { orderCreated = "Yes"});
         }
     }
 }

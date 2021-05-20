@@ -127,7 +127,19 @@ namespace TeaShop_BetaTea.Controllers
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.Number, code);
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+            }
+            ModelState.AddModelError("", "Не удалось привязать");
+            return View(model);
+            //return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
         //

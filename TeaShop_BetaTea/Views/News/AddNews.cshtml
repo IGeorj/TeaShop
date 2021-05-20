@@ -8,54 +8,52 @@
         @Html.AntiForgeryToken()
     
             <hr />
-        <div class="form-row">
+            <div class="form-row">
 
-        
-        <div class="form-group">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control-file", @type="file" } })
-                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control-file", @type = "file", @onchange = "loadFile(event)" } })
+                            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                            <img class="mt-3" id="output" style="min-height: 200px; min-width: 200px; max-height:200px; max-width: 200px" />
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "col-form-label ml-3" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.Topic, htmlAttributes: new { @class = "col-form-label ml-3" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Topic, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "col-form-label ml-3" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FullDescription, htmlAttributes: new { @class = "col-form-label ml-3" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control", rows = "10", cols = "50" })
+                        @Html.ValidationMessageFor(model => model.FullDescription, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Topic, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Topic, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-        </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FullDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control", rows="10", cols="50" } )
-                    @Html.ValidationMessageFor(model => model.FullDescription, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -68,3 +66,12 @@
         @Html.ActionLink("Назад к новостям...", "Index")
     </div>
 </div>
+<script>
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+</script>

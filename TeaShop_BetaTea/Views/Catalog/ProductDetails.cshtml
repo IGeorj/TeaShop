@@ -9,12 +9,12 @@
             <div class="row mb-3 mt-3">
                 @foreach (var item in Model.Products)
                 {
-                    <div class="preview col-md-6">
+                    <div class="col-md-6">
                         <div class="tab-content ml-3">
-                            <div class="tab-pane active"><img src="@Url.Content(item.Image)" /></div>
+                            <div class="tab-pane active"><img style="max-width:360px; max-height:360px" src="@Url.Content(item.Image)" /></div>
                         </div>
                     </div>
-                    <div class="details col-md-6">
+                    <div class="col-md-5">
                         <h3 class="product-title">@Html.DisplayFor(modelItem => item.Name)</h3>
                         <div>
                             <div class="stars">
@@ -50,7 +50,69 @@
                             <span class="review-no">Отзывы: @Model.Reviews.Count()</span>
                         </div>
                         <p class="product-description">@Html.DisplayFor(modelItem => item.Description)</p>
-                        <h4>Цена: <span>@Html.DisplayFor(modelItem => item.Price)</span></h4>
+                        <h4>Цена: <span>@Html.DisplayFor(modelItem => item.Price) р.</span></h4>
+                        <dl>
+                            <div>
+                                <dt>
+                                    <span>Бренд:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                        Beta Tea
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <span>Тип:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                        Листовой
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <span>Размер:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                        Крупный лист
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <span>Цвет:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                        Черный чай
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <span>Вес:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                         500г
+                                    </span>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>
+                                    <span>Страна:</span>
+                                </dt>
+                                <dd>
+                                    <span>
+                                        Шри-Ланка
+                                    </span>
+                                </dd>
+                            </div>
+                        </dl>
                         <div class="action mt-3">
                             <a class="btn btn-success" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a>
                             <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>

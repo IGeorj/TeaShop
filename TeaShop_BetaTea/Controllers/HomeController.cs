@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using TeaShop_BetaTea.Models;
 
 namespace TeaShop_BetaTea.Controllers
 {
@@ -6,7 +8,10 @@ namespace TeaShop_BetaTea.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            using (DataContext db = new DataContext())
+            {
+                return View(db.Products.OrderByDescending(x => x.ProductId).Take(3).ToList());
+            }
         }
 
         public ActionResult About()

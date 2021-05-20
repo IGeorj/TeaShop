@@ -377,6 +377,7 @@
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\AddNews.cshtml" />
+    <Content Include="Views\Catalog\AddProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

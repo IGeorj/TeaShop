@@ -1,6 +1,5 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -70,4 +69,18 @@ textarea {
     left: 0;
     right: 0;
     padding-top: 10%;
+}
+.footer .box-links li a {
+    color: #212529;
+    display: block;
+    text-decoration: none;
+    background: none;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(28, 34, 37, 0.2);
+}
+.cuttedText {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Номер телефона";
 }
-
+<div class="container mt-3">
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -27,3 +27,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+</div>
