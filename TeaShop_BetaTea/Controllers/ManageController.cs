@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -54,6 +56,23 @@ namespace TeaShop_BetaTea.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            var userId = User.Identity.GetUserId();
+            using (DataContext db = new DataContext())
+            {
+                ViewBag.OrdersCounter = db.Orders.Where(x => x.UserId == userId).Count();
+                ViewBag.ReviewsCounter = db.Reviews.Where(x => x.UserId == userId).Count();
+                ViewBag.Avatar = db.Users.Find(userId).Avatar;
+                ViewBag.Name = User.Identity.Name;
+                ApplicationUser user = db.Users.Find(userId);
+                if (string.IsNullOrEmpty(user.Street) || string.IsNullOrEmpty(user.House) || string.IsNullOrEmpty(user.Apartament))
+                {
+                    ViewBag.Address = " "; 
+                }
+                else
+                {
+                    ViewBag.Address = $"{user.Street}, " + $"{user.House}" + $"-{user.Apartament}";
+                }
+            }
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
                 : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
@@ -63,7 +82,6 @@ namespace TeaShop_BetaTea.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
 
-            var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -344,8 +362,85 @@ namespace TeaShop_BetaTea.Controllers
 
             base.Dispose(disposing);
         }
+        public async Task<ActionResult> OrdersHistory()
+        {
+            using (DataContext db = new DataContext())
+            {
+                string userId = User.Identity.GetUserId();
+                var orders = await db.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.Date).ToListAsync();
+                return View(orders);
+            }
+        }
+        public async Task<ActionResult> ReviewsHistory()
+        {
+            using (DataContext db = new DataContext())
+            {
+                string userId = User.Identity.GetUserId();
+                var reviews = await db.Reviews.Where(x => x.UserId == userId).Include(x => x.Product).OrderByDescending(x => x.Date).ToListAsync();
+                return View(reviews);
+            }
+        }
+        public ActionResult ChangeAvatar(HttpPostedFileBase Image)
+        {
+            using (DataContext db = new DataContext())
+            {
+                string userId = User.Identity.GetUserId();
+                ApplicationUser user = db.Users.Find(userId);
+                if (Image != null)
+                {
+                    string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(Image.FileName));
+                    Image.SaveAs(path);
+                    user.Avatar = $"~/Images/{Image.FileName}";
+                }
+                else
+                {
+                    user.Avatar = "~/Images/MissingImg.jpg";
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+        public ActionResult ChangePersonalData()
+        {
+            string userId = User.Identity.GetUserId();
+            ViewBag.Name = User.Identity.Name;
+            using(DataContext db = new DataContext())
+            {
+                if (string.IsNullOrEmpty(db.Users.Find(userId).House))
+                {
+                    ViewBag.Street = " ";
+                    ViewBag.House = " ";
+                    ViewBag.Apartament = " ";
+                }
+                else
+                {
+                    ViewBag.Street = db.Users.Find(userId).Street;
+                    ViewBag.House = db.Users.Find(userId).House;
+                    ViewBag.Apartament = db.Users.Find(userId).Apartament;
+                }
+            }
+            return View();
+        }
 
-#region Вспомогательные приложения
+        //
+        // POST: /Manage/ChangePersonalData
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePersonalData(string Street, string House, string Apartament, string Name)
+        {
+            string userId = User.Identity.GetUserId();
+            using (DataContext db = new DataContext())
+            {
+                ApplicationUser user = db.Users.Find(userId);
+                user.UserName = Name;
+                user.Street = Street;
+                user.Apartament = Apartament;
+                user.House = House;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 

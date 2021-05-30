@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -18,17 +19,19 @@ namespace TeaShop_BetaTea.Controllers
         public async Task<ActionResult> Index(string category, string searchString, string sortBy)
         {
             ViewBag.SortParm = sortBy;
-            List<ProductModel> model;
+            ViewBag.SearchParm = searchString;
+            ProductViewModel model = new ProductViewModel();
+            model.Filters = new FilterRepository();
             using (DataContext db = new DataContext())
             {
-                model = await db.Products.Include("Category").OrderByDescending(x => x.ProductId).ToListAsync();
+                model.Products = await db.Products.Include("Category").OrderByDescending(x => x.ProductId).ToListAsync();
                 if (!String.IsNullOrEmpty(category))
                 {
-                    model = model.Where(x => x.Category.Name == category).ToList();
+                    model.Products = model.Products.Where(x => x.Category.Name == category).ToList();
                 }
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    model = model.Where(
+                    model.Products = model.Products.Where(
                         x => x.Name.Contains(searchString) ||
                         x.Description.Contains(searchString))
                         .ToList();
@@ -38,19 +41,18 @@ namespace TeaShop_BetaTea.Controllers
                     default:
                         break;
                     case "PriceAsc":
-                        model = model.OrderByDescending(x => x.Price).ToList();
+                        model.Products = model.Products.OrderByDescending(x => x.Price).ToList();
                         break;
                     case "PriceDsc":
-                        model = model.OrderBy(x => x.Price).ToList();
+                        model.Products = model.Products.OrderBy(x => x.Price).ToList();
                         break;
                     case "NameAsc":
-                        model = model.OrderByDescending(x => x.Name).ToList();
+                        model.Products = model.Products.OrderByDescending(x => x.Name).ToList();
                         break;
                     case "NameDsc":
-                        model = model.OrderBy(x => x.Name).ToList();
+                        model.Products = model.Products.OrderBy(x => x.Name).ToList();
                         break;
                 }
-                TempData["currentModel"] = model;
                 return View(model);
             }
         }
@@ -67,7 +69,7 @@ namespace TeaShop_BetaTea.Controllers
         {
             using (DataContext db = new DataContext())
             {
-                return db.Reviews.Where(x => x.ProductId == id).ToList();
+                return db.Reviews.Include(x => x.User).Where(x => x.ProductId == id).ToList();
             }
         }
 
@@ -92,8 +94,10 @@ namespace TeaShop_BetaTea.Controllers
         {
             using (DataContext db = new DataContext())
             {
+                string userId = User.Identity.GetUserId();
                 ReviewModel review = new ReviewModel
                 {
+                    UserId = userId,
                     Username = UserName,
                     Date = DateTime.Now,
                     Description = ReviewDescription,
@@ -108,27 +112,34 @@ namespace TeaShop_BetaTea.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult AddProduct()
         {
-                SelectList сtg = new SelectList(ctx.Categories, "CategoryId", "Name");
-                ViewBag.Categories = сtg;
-            return View();
+            ProductViewModel model = new ProductViewModel();
+            model.Filters = new FilterRepository();
+            SelectList сtg = new SelectList(ctx.Categories, "CategoryId", "Name");
+            ViewBag.Categories = сtg;
+            return View(model);
         }
         [HttpPost]
-        public ActionResult CreateProduct(HttpPostedFileBase Image, ProductModel news)
+        public ActionResult CreateProduct(HttpPostedFileBase Image, ProductViewModel model)
         {
-            ProductModel temp = news;
+            ProductViewModel temp = model;
             if (Image != null)
             {
                 string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(Image.FileName));
                 Image.SaveAs(path);
-                temp.Image = $"~/Images/{Image.FileName}";
+                temp.Product.Image = $"~/Images/{Image.FileName}";
             }
             else
             {
-                temp.Image = "~/Images/MissingImg.jpg";
+                temp.Product.Image = "~/Images/MissingImg.jpg";
             }
             using (DataContext db = new DataContext())
             {
-                db.Products.Add(temp);
+                if (temp.Product.CategoryId == db.Categories.FirstOrDefault(x => x.Name == "Кофе").CategoryId)
+                {
+                    temp.Product.Color = null;
+                    temp.Product.Size = null;
+                }
+                db.Products.Add(temp.Product);
                 db.SaveChanges();
             }
             return RedirectToAction("AddProduct");

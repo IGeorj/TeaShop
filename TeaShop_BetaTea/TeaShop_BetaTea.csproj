@@ -174,7 +174,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -184,13 +183,40 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Initializers\DataInitializer.cs" />
+    <Compile Include="Migrations\202105210209186_InitialCreate.cs" />
+    <Compile Include="Migrations\202105210209186_InitialCreate.Designer.cs">
+      <DependentUpon>202105210209186_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105210238580_OrdersDate.cs" />
+    <Compile Include="Migrations\202105210238580_OrdersDate.Designer.cs">
+      <DependentUpon>202105210238580_OrdersDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105210312360_UserAvatar.cs" />
+    <Compile Include="Migrations\202105210312360_UserAvatar.Designer.cs">
+      <DependentUpon>202105210312360_UserAvatar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105210742154_ReviewOrdersUser.cs" />
+    <Compile Include="Migrations\202105210742154_ReviewOrdersUser.Designer.cs">
+      <DependentUpon>202105210742154_ReviewOrdersUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105211056146_UserAddress.cs" />
+    <Compile Include="Migrations\202105211056146_UserAddress.Designer.cs">
+      <DependentUpon>202105211056146_UserAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202105211358490_ProductSize.cs" />
+    <Compile Include="Migrations\202105211358490_ProductSize.Designer.cs">
+      <DependentUpon>202105211358490_ProductSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartItemModel.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\FilterRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ReviewModel.cs" />
@@ -212,6 +238,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\640x360.png" />
     <Content Include="Images\900x400.png" />
+    <Content Include="Images\About.jpg" />
+    <Content Include="Images\Avatar.png" />
     <Content Include="Images\Carousel1.png" />
     <Content Include="Images\Carousel2.png" />
     <Content Include="Images\Carousel3.jpg" />
@@ -373,11 +401,13 @@
     <Content Include="Views\Catalog\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Catalog\ProductDetails.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\AddNews.cshtml" />
     <Content Include="Views\Catalog\AddProduct.cshtml" />
+    <Content Include="Views\Manage\OrdersHistory.cshtml" />
+    <Content Include="Views\Manage\ChangePersonalData.cshtml" />
+    <Content Include="Views\Manage\ReviewsHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -392,6 +422,26 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202105210209186_InitialCreate.resx">
+      <DependentUpon>202105210209186_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105210238580_OrdersDate.resx">
+      <DependentUpon>202105210238580_OrdersDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105210312360_UserAvatar.resx">
+      <DependentUpon>202105210312360_UserAvatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105210742154_ReviewOrdersUser.resx">
+      <DependentUpon>202105210742154_ReviewOrdersUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105211056146_UserAddress.resx">
+      <DependentUpon>202105211056146_UserAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105211358490_ProductSize.resx">
+      <DependentUpon>202105211358490_ProductSize.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

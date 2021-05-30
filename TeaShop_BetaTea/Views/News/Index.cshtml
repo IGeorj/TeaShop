@@ -32,7 +32,7 @@
                         <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Title)</h3>
                         <div class="mb-1 text-muted">@Html.DisplayFor(modelItem => item.Date)</div>
                         <p class="card-text mb-auto">@Html.DisplayFor(modelItem => item.ShortDescription)</p>
-                        <a href="#" class="stretched-link">Подробнее...</a>
+                        @*<a href="#" class="stretched-link">Подробнее...</a>*@
                     </div>
                     <div class="col-auto d-none d-lg-block">
                         @if (User.IsInRole("Admin"))

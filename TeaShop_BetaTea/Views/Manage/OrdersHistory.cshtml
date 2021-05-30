@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TeaShop_BetaTea.Models.OrderModel>
+
+@{
+    ViewBag.Title = "OrdersHistory";
+}
+<div class="container text-center mt-3">
+    <h2 class="mb-4">История заказов</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                Адрес
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apartament)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @item.Street, @item.House
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apartament)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice) р.
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

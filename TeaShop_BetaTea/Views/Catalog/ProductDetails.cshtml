@@ -1,4 +1,5 @@
-﻿@model TeaShop_BetaTea.Models.ProductViewModel
+﻿@using Microsoft.AspNet.Identity;
+@model TeaShop_BetaTea.Models.ProductViewModel
 @{
     ViewBag.Title = "ProductDetails";
 }
@@ -9,13 +10,13 @@
             <div class="row mb-3 mt-3">
                 @foreach (var item in Model.Products)
                 {
-                    <div class="col-md-6">
+                    <div class="col-md-7 col-lg-6">
                         <div class="tab-content ml-3">
-                            <div class="tab-pane active"><img style="max-width:360px; max-height:360px" src="@Url.Content(item.Image)" /></div>
+                            <div class="tab-pane active"><img class="img-fluid" style="max-width:360px; max-height:360px" src="@Url.Content(item.Image)" /></div>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <h3 class="product-title">@Html.DisplayFor(modelItem => item.Name)</h3>
+                    <div class="col-md-4">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
                         <div>
                             <div class="stars">
                                 @if (Model.Reviews.Any())
@@ -50,69 +51,42 @@
                             <span class="review-no">Отзывы: @Model.Reviews.Count()</span>
                         </div>
                         <p class="product-description">@Html.DisplayFor(modelItem => item.Description)</p>
-                        <h4>Цена: <span>@Html.DisplayFor(modelItem => item.Price) р.</span></h4>
-                        <dl>
-                            <div>
-                                <dt>
-                                    <span>Бренд:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                        Beta Tea
-                                    </span>
-                                </dd>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Бренд:</strong><br>
+                                @Model.Products.First().Brand
                             </div>
-                            <div>
-                                <dt>
-                                    <span>Тип:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                        Листовой
-                                    </span>
-                                </dd>
+                            <div class="col">
+                                <strong>Тип:</strong><br>
+                                @Model.Products.First().Type
                             </div>
-                            <div>
-                                <dt>
-                                    <span>Размер:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                        Крупный лист
-                                    </span>
-                                </dd>
+                        </div>
+                        @if (item.Category.Name != "Кофе")
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <strong>Размер:</strong><br>
+                                    @Model.Products.First().Size
+                                </div>
+                                <div class="col">
+                                    <strong>Цвет:</strong><br>
+                                    @Model.Products.First().Color
+                                </div>
                             </div>
-                            <div>
-                                <dt>
-                                    <span>Цвет:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                        Черный чай
-                                    </span>
-                                </dd>
+                        }
+
+                        <div class="row">
+                            <div class="col">
+                                <strong>Вес:</strong><br>
+                                @(Model.Products.First().Weight)г.
                             </div>
-                            <div>
-                                <dt>
-                                    <span>Вес:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                         500г
-                                    </span>
-                                </dd>
+                            <div class="col">
+                                <strong>Страна:</strong><br>
+                                @Model.Products.First().Country
                             </div>
-                            <div>
-                                <dt>
-                                    <span>Страна:</span>
-                                </dt>
-                                <dd>
-                                    <span>
-                                        Шри-Ланка
-                                    </span>
-                                </dd>
-                            </div>
-                        </dl>
+                        </div>
+                        <h4 class="mt-2">Цена: <span>@Html.DisplayFor(modelItem => item.Price) р.</span></h4>
+
                         <div class="action mt-3">
                             <a class="btn btn-success" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a>
                             <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
@@ -124,17 +98,20 @@
     </div>
     @if (Model.Reviews.Any())
     {
-        foreach (var item in Model.Reviews)
+        if (Model.Reviews.Where(x => x.UserId == User.Identity.GetUserId()).Any())
         {
+            foreach (var item in Model.Reviews.Where(x => x.UserId == User.Identity.GetUserId()))
+            {
             <div class="card-body">
+                <h3 class="centered">Ваш отзыв</h3>
                 <div class="row">
                     <div class="col-md-2">
-                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid" />
+                        <img src="@Url.Content(item.User.Avatar)" class="img img-fluid rounded-circle" />
                         <p class="text-secondary text-center">@Html.DisplayFor(modelItem => item.Date)</p>
                     </div>
                     <div class="col-md-10">
                         <p>
-                            <strong>@item.Username</strong>
+                            <strong>@item.User.UserName</strong>
                             <div class="stars float-right">
                                 @for (int i = 0; i < 5; i++)
                                 {
@@ -153,8 +130,42 @@
                         <div class="clearfix"></div>
                         <p>@item.Description</p>
                         <p>
-                            @*<a class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Reply</a>
-                                <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>*@
+                        </p>
+                    </div>
+                </div>
+            </div>
+            }
+        }
+        <h4 class="font-weight-bold mt-5">Отзывы</h4>
+        foreach (var item in Model.Reviews)
+        {
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="@Url.Content(item.User.Avatar)" class="img img-fluid rounded-circle" />
+                        <p class="text-secondary text-center">@Html.DisplayFor(modelItem => item.Date)</p>
+                    </div>
+                    <div class="col-md-10">
+                        <p>
+                            <strong>@item.User.UserName</strong>
+                            <div class="stars float-right">
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < item.Rate)
+                                    {
+                                        <span class="fa fa-star" style="color:orange"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-star"></span>
+                                    }
+                                }
+                            </div>
+
+                        </p>
+                        <div class="clearfix"></div>
+                        <p>@item.Description</p>
+                        <p>
                         </p>
                     </div>
                 </div>
@@ -163,12 +174,12 @@
     }
     else
     {
-        <p class="mb-3 mt-3 text-center">Нет ни одного отзыва...</p>
+        <h4 class="mb-3 mt-5 text-center">Отзывы не найдены...</h4>
     }
-    @if(User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && !Model.Reviews.Where(x => x.UserId == User.Identity.GetUserId()).Any())
     {
         <div class="mt-3 ml-5">
-            <h4 class="font-weight-bold">Отзывы</h4>
+            <h4 class="font-weight-bold">Оставить отзыв</h4>
             @using (Html.BeginForm("SendReview", "Catalog", FormMethod.Post))
             {
                 <input id="ProductId" name="ProductId" type="hidden" value="@Model.Products.First().ProductId" />
@@ -188,7 +199,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="text" id="UserName" name="UserName" class="form-control" placeholder="Имя...">
+                    <label for="UserName"><h6>Имя</h6></label>
+                    <input type="text" id="UserName" name="UserName" class="form-control" value="@System.Web.HttpContext.Current.User.Identity.Name">
                 </div>
                 <div class="form-group">
                     <textarea class="form-control" id="ReviewDescription" name="ReviewDescription" rows="10" placeholder="Ваш отзыв..."></textarea>

@@ -16,6 +16,18 @@ namespace TeaShop_BetaTea.Models
 
         [Display(Name = "Описание")]
         public string Description { get; set; }
+        [Display(Name = "Размер")]
+        public string Size { get; set; }
+        [Display(Name = "Бренд")]
+        public string Brand { get; set; }
+        [Display(Name = "Тип")]
+        public string Type { get; set; }
+        [Display(Name = "Цвет")]
+        public string Color { get; set; }
+        [Display(Name = "Вес")]
+        public int Weight { get; set; }
+        [Display(Name = "Страна")]
+        public string Country { get; set; }
 
         [Display(Name = "Цена")]
         public decimal Price { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,7 +25,33 @@ namespace TeaShop_BetaTea.Controllers
             var userId = User.Identity.GetUserId();
 
             ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            ViewBag.Phone = await userManager.GetPhoneNumberAsync(userId);
+            if (!string.IsNullOrEmpty(userId))
+            {
+                string phone = await userManager.GetPhoneNumberAsync(userId);
+                ViewBag.Name = User.Identity.Name;
+                ViewBag.Phone = " ";
+                ViewBag.Street = " ";
+                ViewBag.House = " ";
+                ViewBag.Apartament = " ";
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    ViewBag.Phone = phone;
+                }
+                using(DataContext db = new DataContext())
+                {
+                    ApplicationUser user = db.Users.Find(userId);
+                    if (!string.IsNullOrEmpty(user.Street))
+                    {
+                        ViewBag.Street = user.Street;
+                        ViewBag.House = user.House;
+                        ViewBag.Apartament = user.Apartament;
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.Phone = " ";
+            }
             return View();
         }
 
@@ -37,7 +64,7 @@ namespace TeaShop_BetaTea.Controllers
                 items = new List<CartItemModel>();
                 using (DataContext db = new DataContext())
                 {
-                    items.Add(new CartItemModel { Product = db.Products.Find(id), Quantity = 1 });
+                    items.Add(new CartItemModel { Product = db.Products.Find(id), ProductId = id, Quantity = 1 });
                 }
                 Session["asd"] = "yes2";
                 Session["cart"] = items;
@@ -54,7 +81,7 @@ namespace TeaShop_BetaTea.Controllers
                     using (DataContext db = new DataContext())
                     {
                         ProductModel product = db.Products.Find(id);
-                        items.Add(new CartItemModel { Product = product, Quantity = 1 });
+                        items.Add(new CartItemModel { Product = product, ProductId = id, Quantity = 1 });
                         Session["cartTotal"] = (decimal)Session["cartTotal"] + product.Price;
                     }
                     Session["cart"] = items;
@@ -133,12 +160,37 @@ namespace TeaShop_BetaTea.Controllers
             }
             return false;
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateOrder()
+        public ActionResult CreateOrder(string inputPhone, string inputName, string inputStreet, string inputHouse, string inputApartment, string payment)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                OrderModel order = new OrderModel();
+                order.UserId = User.Identity.GetUserId();
+                order.TotalPrice = (decimal)Session["cartTotal"];
+                order.FirstName = inputName;
+                order.Street = inputStreet;
+                order.House = inputHouse;
+                order.Apartament = inputApartment;
+                order.Payment = payment;
+                order.Phone = inputPhone;
+                order.Date = DateTime.Now;
+                using (DataContext db = new DataContext())
+                {
+                    db.Orders.Add(order);
+                    db.SaveChanges();
+                    List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        items[i].Order = order;
+                    }
+                    db.SaveChanges();
+                }
+            }
             Session["cart"] = null;
-            return RedirectToAction("Index", new { orderCreated = "Yes"});
+            return RedirectToAction("Index", new { orderCreated = "Yes" });
         }
     }
 }

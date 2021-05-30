@@ -1,0 +1,48 @@
+﻿@model IEnumerable<TeaShop_BetaTea.Models.ReviewModel>
+
+@{
+    ViewBag.Title = "ReviewsHistory";
+}
+<div class="container text-center mt-3">
+    <h2 class="mb-4">История отзывов</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Товар
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Дата
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="centered">
+                    <a class="" href="@Url.Action("ProductDetails", "Catalog", new { id = item.ProductId })">
+                        <img style="min-height: 100px; min-width: 100px; max-height:100px; max-width: 100px" class="mr-4" src="@Url.Content(item.Product.Image)" />
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </a>
+                </td>
+                <td style="vertical-align:middle">
+                        @Html.DisplayFor(modelItem => item.Rate)
+                </td>
+                <td style="vertical-align:middle">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td style="vertical-align:middle">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

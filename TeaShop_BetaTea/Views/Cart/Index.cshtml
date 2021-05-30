@@ -3,7 +3,7 @@
     {
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">Ваши товары</h1>
+                <h3 class="jumbotron-heading">Ваши товары</h3>
             </div>
         </section>
         using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -60,40 +60,66 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row">
+                        <div class="row ">
                             <div class="col-lg-3 mb-3">
-                                <label for="inputPhone" class="col-lg-2 control-label pl-1">Телефон</label>
+                                <label for="inputPhone" class="">Ваш моб. телефон</label>
                                 <input type="text" class="form-control" required="required"
-                                       id="inputPhone" name="inputPhone" placeholder="" value="@ViewBag.Phone">
+                                       id="inputPhone" name="inputPhone" value="@ViewBag.Phone">
                             </div>
+                            <div class="col-lg-3 mb-3">
+                                <label for="inputName" class="">Ваше имя</label>
+                                <input type="text" class="form-control" required="required"
+                                       id="inputPhone" name="inputName" value="@ViewBag.Name">
+                            </div>
+                        </div>
+                        <div class="row ">
                             <div class="col-lg-3 mb-3">
                                 <label for="inputStreet" class="col-lg-2 control-label pl-1">Улица</label>
                                 <input type="text" class="form-control" required="required"
-                                       id="inputStreet" name="inputStreet" placeholder="" value="">
+                                       id="inputStreet" name="inputStreet" value="@ViewBag.Street">
                             </div>
                             <div class="col-lg-3 mb-3">
                                 <label for="inputHouse" class="col-lg-2 control-label pl-1">Дом</label>
                                 <input type="text" class="form-control" required="required"
-                                       id="inputHouse" name="inputHouse" placeholder="" value="">
+                                       id="inputHouse" name="inputHouse" value="@ViewBag.House">
                             </div>
                             <div class="col-lg-3 mb-3">
                                 <label for="inputApartment" class="col-lg-2 control-label pl-1" onkeypress="return event.charCode >= 48" min="1">Квартира</label>
-                                <input type="number" class="form-control" required="required"
-                                       id="inputApartment" name="inputApartment" placeholder="" value="e">
+                                <input type="text" class="form-control" required="required"
+                                       id="inputApartment" name="inputApartment" value="@ViewBag.Apartament">
+                            </div>
+                        </div>
+                            <h3 class="centered">Способ оплаты:</h3>
+                            <div class="centered">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-success active">
+                                        <input value="Наличные" type="radio" name="payment" id="cash" autocomplete="off" checked> Наличным
+                                    </label>
+
+                                    <label class="btn btn-outline-success">
+                                        <input value="Карта" type="radio" name="payment" id="card" autocomplete="off"> Картой
+                                    </label>
+
+                                    <label class="btn btn-outline-success">
+                                        <input value="Халва" type="radio" name="payment" id="halva" autocomplete="off"> Халва
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col mb-2">
+                            <br>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-sm-12  col-md-6">
+                                    @Html.ActionLink("Продолжить покупки", "Index", "Catalog", new { area = "" }, new { @class = "btn btn-block btn-light" })
+                                </div>
+                                <div class="col-sm-12 col-md-6 text-right">
+                                    <button type="submit" class="btn btn-lg btn-block btn-success text-uppercase">Оформить заказ</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-2">
-                        <div class="row">
-                            <div class="col-sm-12  col-md-6">
-                                @Html.ActionLink("Продолжить покупки", "Index", "Catalog", new { area = "" }, new { @class = "btn btn-block btn-light" })
-                            </div>
-                            <div class="col-sm-12 col-md-6 text-right">
-                                <button type="submit" class="btn btn-lg btn-block btn-success text-uppercase">Оформить заказ</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         }
     }

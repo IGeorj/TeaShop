@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TeaShop_BetaTea.Models;
 
@@ -6,11 +8,11 @@ namespace TeaShop_BetaTea.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             using (DataContext db = new DataContext())
             {
-                return View(db.Products.OrderByDescending(x => x.ProductId).Take(3).ToList());
+                return View(await db.Products.OrderByDescending(x => x.ProductId).Take(3).ToListAsync());
             }
         }
 

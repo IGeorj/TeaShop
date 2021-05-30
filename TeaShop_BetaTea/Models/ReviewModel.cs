@@ -21,9 +21,14 @@ namespace TeaShop_BetaTea.Models
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime Date { get; set; }
 
-        public int ProductId { get; set; }
-
         [ForeignKey("ProductId")]
         public ProductModel Product { get; set; }
+
+        public int ProductId { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+
+        public string UserId { get; set; }
     }
 }
