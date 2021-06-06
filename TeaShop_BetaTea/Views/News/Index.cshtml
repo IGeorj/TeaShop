@@ -5,14 +5,14 @@
 }
 <div class="container mt-3">
     <h2 class="text-center mb-3">Новости</h2>
-    @using (Html.BeginForm("Index", "News", FormMethod.Get))
+    @using (Html.BeginForm("Index", "News", FormMethod.Get, new { id = "filter" }))
     {
-        <div class="input-group mb-3 justify-content-end">
-            <input type="text" name="searchString" class="form-control" placeholder="Поиск...">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fa fa-search"></i>
-                </button>
+        <div class="fixed-top mr-3" style="z-index:1;">
+            <div class="d-flex justify-content-end h-100">
+                <div class="searchbar" style="margin-top:3.6rem">
+                    <input autocomplete="off" class="search_input" name="searchString" type="text" value="@ViewBag.SearchParm" placeholder="Поиск...">
+                    <a href="#" onclick="document.getElementById('filter').submit()" class="search_icon"><i class="fa fa-search"></i></a>
+                </div>
             </div>
         </div>
     }
@@ -37,7 +37,7 @@
                     <div class="col-auto d-none d-lg-block">
                         @if (User.IsInRole("Admin"))
                         {
-                            <a href="@Url.Action("Delete", "News", new { id = item.NewsId})" class="close" style="outline:none; color:red;" aria-label="Close">
+                            <a href="@Url.Action("Delete", "News", new { id = item.NewsId})" class="close" style="outline:none; color:red;" aria-label="Close" onclick="return confirm('Вы уверены?')">
                                 <span aria-hidden="true">&times;</span>
                             </a>
                         }

@@ -1,0 +1,22 @@
+﻿@model Int32
+
+<div class="stars">
+    @if (Model != -1)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (i < Model)
+            {
+                <span class="fa fa-star" style="color:orange"></span>
+            }
+            else
+            {
+                <span class="fa fa-star"></span>
+            }
+        }
+    }
+    else
+    {
+        <i class="fa fa-eye-slash"></i>
+    }
+</div>

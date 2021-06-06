@@ -1,0 +1,60 @@
+﻿@model TeaShop_BetaTea.Models.ProductViewModel
+
+<div class="container mt-1 text-center">
+    <table class="table">
+        <tr>
+            <th>
+                Изображение
+            </th>
+            <th>
+                Название
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.Price)
+            </th>
+            <th>
+                Количество
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.CartItems)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("ProductDetails", "Catalog", new { id = item.Key.ProductId })">
+                        <img style="min-height: 100px; min-width: 100px; max-height:100px; max-width: 100px" src="@Url.Content(item.Key.Image)" />
+                    </a>
+                </td>
+                <td style="vertical-align:middle">
+                    @Html.DisplayFor(modelItem => item.Key.Name)
+                </td>
+                <td style="vertical-align:middle">
+                    @Html.DisplayFor(modelItem => item.Key.Price) р.
+                </td>
+                <td style="vertical-align:middle">
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+            </tr>
+        }
+
+    </table>
+    @*<div class="row">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-lg-4">
+                    <a href="@Url.Action("ProductDetails", "Catalog", new { id = item.ProductId })">
+                        <img class="bd-placeholder-img rounded-circle" alt="@Html.DisplayFor(modelItem => item.Name)" src="@Url.Content(item.Image)" width="140" height="140" /><rect width="100%" height="100%" fill="#777"></rect>
+                    </a>
+                    <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+                    <p class="cuttedText">@Html.DisplayFor(modelItem => item.Description)</p>
+                    <h4>@Html.DisplayFor(modelItem => item.Price) р.</h4>
+                    <br>
+                    <div class="row justify-content-center">
+                        <p><a class="btn btn-dark mr-2" href="@Url.Action("ProductDetails", "Catalog", new { id = item.ProductId })">Подробнее...</a></p>
+                        <p><a class="btn btn-success ml-2" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a></p>
+                    </div>
+                </div>
+            }
+        </div>*@
+</div>

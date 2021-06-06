@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using TeaShop_BetaTea.Models;
 
 namespace TeaShop_BetaTea.Controllers
@@ -34,9 +34,9 @@ namespace TeaShop_BetaTea.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,12 +61,13 @@ namespace TeaShop_BetaTea.Controllers
             {
                 ViewBag.OrdersCounter = db.Orders.Where(x => x.UserId == userId).Count();
                 ViewBag.ReviewsCounter = db.Reviews.Where(x => x.UserId == userId).Count();
+                ViewBag.FavoritesCounter = db.Likes.Where(x => x.UserId == userId).Count();
                 ViewBag.Avatar = db.Users.Find(userId).Avatar;
                 ViewBag.Name = User.Identity.Name;
                 ApplicationUser user = db.Users.Find(userId);
                 if (string.IsNullOrEmpty(user.Street) || string.IsNullOrEmpty(user.House) || string.IsNullOrEmpty(user.Apartament))
                 {
-                    ViewBag.Address = " "; 
+                    ViewBag.Address = " ";
                 }
                 else
                 {
@@ -362,24 +363,68 @@ namespace TeaShop_BetaTea.Controllers
 
             base.Dispose(disposing);
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AllOrders()
+        {
+            List<string> statusList = new List<string>() { "Доставлен", "Отправлен", "В обработке", "Отменен" };
+            using (DataContext db = new DataContext())
+            {
+                ViewBag.StatusList = new SelectList(statusList);
+                var model = await db.Orders.OrderByDescending(x => x.Date).ToListAsync();
+                return View(model);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult ChangeStatus(int orderId, string status)
+        {
+            using (DataContext db = new DataContext())
+            {
+                OrderModel order = db.Orders.Find(orderId);
+                order.Status = status;
+                db.SaveChanges();
+            }
+            return RedirectToAction("AllOrders");
+        }
+
         public async Task<ActionResult> OrdersHistory()
         {
             using (DataContext db = new DataContext())
             {
                 string userId = User.Identity.GetUserId();
-                var orders = await db.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.Date).ToListAsync();
-                return View(orders);
+                var model = await db.Orders.Where(x => x.UserId == userId).OrderByDescending(x => x.Date).ToListAsync();
+                return View(model);
             }
         }
+
         public async Task<ActionResult> ReviewsHistory()
         {
             using (DataContext db = new DataContext())
             {
                 string userId = User.Identity.GetUserId();
-                var reviews = await db.Reviews.Where(x => x.UserId == userId).Include(x => x.Product).OrderByDescending(x => x.Date).ToListAsync();
-                return View(reviews);
+                var model = await db.Reviews.Where(x => x.UserId == userId).Include(x => x.Product).OrderByDescending(x => x.Date).ToListAsync();
+                return View(model);
             }
         }
+
+        public ActionResult Favorites()
+        {
+            using (DataContext db = new DataContext())
+            {
+                string userId = User.Identity.GetUserId();
+                var likes = db.Likes.Where(x => x.UserId == userId).ToList();
+                ProductViewModel model = new ProductViewModel();
+                List<ProductModel> products = new List<ProductModel>();
+                foreach (var item in likes)
+                {
+                    products.Add(db.Products.Find(item.ProductId));
+                }
+                model.Products = products;
+                return View(model);
+            }
+        }
+
         public ActionResult ChangeAvatar(HttpPostedFileBase Image)
         {
             using (DataContext db = new DataContext())
@@ -400,11 +445,12 @@ namespace TeaShop_BetaTea.Controllers
                 return RedirectToAction("Index");
             }
         }
+
         public ActionResult ChangePersonalData()
         {
             string userId = User.Identity.GetUserId();
             ViewBag.Name = User.Identity.Name;
-            using(DataContext db = new DataContext())
+            using (DataContext db = new DataContext())
             {
                 if (string.IsNullOrEmpty(db.Users.Find(userId).House))
                 {
@@ -440,7 +486,24 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public ActionResult ProductsFromOrder(int orderId)
+        {
+            using (DataContext db = new DataContext())
+            {
+                var orders = db.CartItems.Where(x => x.OrderId == orderId).ToList();
+                ProductViewModel model = new ProductViewModel();
+                model.CartItems = new Dictionary<ProductModel, int>();
+                foreach (var item in orders)
+                {
+                    model.CartItems.Add(db.Products.Find(item.ProductId), item.Quantity);
+                }
+                return PartialView(model);
+            }
+        }
+
         #region Вспомогательные приложения
+
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 
@@ -491,6 +554,6 @@ namespace TeaShop_BetaTea.Controllers
             Error
         }
 
-#endregion
+        #endregion Вспомогательные приложения
     }
 }

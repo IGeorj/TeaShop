@@ -10,6 +10,8 @@ namespace TeaShop_BetaTea.Models
         public int OrderId { get; set; }
         [Display(Name = "Имя")]
         public string FirstName { get; set; }
+        [Display(Name = "Статус")]
+        public string Status { get; set; }
 
         [Display(Name = "Телефон")]
         public string Phone { get; set; }

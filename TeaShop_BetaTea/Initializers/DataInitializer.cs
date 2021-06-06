@@ -44,14 +44,18 @@ namespace TeaShop_BetaTea.Initializers
                 Name = "Кофе",
                 Description = "Описание категории кофе"
             };
+            BrandModel br1 = new BrandModel
+            {
+                Name = "Beta Tea"
+            };
             db.Categories.Add(c1);
             db.Categories.Add(c2);
+            db.Brands.Add(br1);
             db.SaveChanges();
 
             ProductModel p1 = new ProductModel
             {
                 Name = "Черный чай 1",
-                Brand = "Beta Tea",
                 Type = "Листовой",
                 Weight = 250,
                 Country = "Шри-Ланка",
@@ -60,13 +64,13 @@ namespace TeaShop_BetaTea.Initializers
                 Price = 2.0m,
                 Description = "Очень интересное описание зеленого чая",
                 Image = "~/Images/MissingImg.jpg",
-                CategoryId = 1
+                CategoryId = 1,
+                BrandId = 1
             };
             ProductModel p2 = new ProductModel
             {
                 Name = "Зеленый чай 1",
                 Price = 2.5m,
-                Brand = "Beta Tea",
                 Type = "Листовой",
                 Country = "Китай",
                 Weight = 250,
@@ -74,19 +78,20 @@ namespace TeaShop_BetaTea.Initializers
                 Size = "Средний лист",
                 Description = "Очень интересное описание черного чая",
                 Image = "~/Images/MissingImg.jpg",
-                CategoryId = 1
+                CategoryId = 1,
+                BrandId = 1
             };
             ProductModel p3 = new ProductModel
             {
                 Name = "Кофе 1",
-                Brand = "Caffito",
                 Type = "Растворимый",
                 Weight = 800,
                 Country = "Россия",
                 Price = 0.5m,
                 Description = "Очень интересное описание кофе",
                 Image = "~/Images/MissingImg.jpg",
-                CategoryId = 2
+                CategoryId = 2,
+                BrandId = 1
             };
             db.Products.Add(p1);
             db.Products.Add(p2);

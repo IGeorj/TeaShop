@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeaShop_BetaTea.Models
@@ -18,8 +19,7 @@ namespace TeaShop_BetaTea.Models
         public string Description { get; set; }
         [Display(Name = "Размер")]
         public string Size { get; set; }
-        [Display(Name = "Бренд")]
-        public string Brand { get; set; }
+
         [Display(Name = "Тип")]
         public string Type { get; set; }
         [Display(Name = "Цвет")]
@@ -36,5 +36,10 @@ namespace TeaShop_BetaTea.Models
 
         [ForeignKey("CategoryId")]
         public virtual CategoryModel Category { get; set; }
+        public int BrandId { get; set; }
+
+        [ForeignKey("BrandId")]
+        public virtual BrandModel Brand { get; set; }
+
     }
 }

@@ -11,8 +11,7 @@ namespace TeaShop_BetaTea.Models
         {
             sizeList = new SelectList( new List<string>{ "Крупный лист", "Средний лист", "Мелкий лист" });
             colorList = new SelectList( new List<string>{ "Черный чай", "Зеленый чай", "Белый чай", "Красный чай", "Синий чай"});
-            brandList = new SelectList( new List<string>{ "Beta Tea", "Bayce", "Champion", "Hezer", "Caffito" });
-            typeList = new SelectList( new List<string>{ "Гранулированный", "Листовой", "Пакетированный", "Растворимый" });
+            typeList = new SelectList( new List<string>{ "Гранулированный", "Листовой", "Пакетированный", "Растворимый", "Молотый" });
             Dictionary<string, string> cultureList = new Dictionary<string, string>();
             CultureInfo[] getCultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             foreach (CultureInfo getCulture in getCultureInfo)
@@ -53,6 +52,10 @@ namespace TeaShop_BetaTea.Models
             get
             {
                 return brandList;
+            }
+            set
+            {
+                brandList = value;
             }
         }
         private SelectList typeList;

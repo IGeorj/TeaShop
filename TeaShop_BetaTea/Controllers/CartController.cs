@@ -20,7 +20,7 @@ namespace TeaShop_BetaTea.Controllers
             }
             else
             {
-                ViewBag.StatusMessage = "Вы успешно оформили заказ!";
+                ViewBag.StatusMessage = "Вы успешно оформили заказ, ждите звонка на мобильный телефон!";
             }
             var userId = User.Identity.GetUserId();
 
@@ -89,13 +89,11 @@ namespace TeaShop_BetaTea.Controllers
             }
             return RedirectToAction("Index");
         }
-
         public ActionResult Increase(int id)
         {
             IncreaseQuantity(id);
             return RedirectToAction("Index");
         }
-
         public ActionResult Decrease(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
@@ -111,7 +109,6 @@ namespace TeaShop_BetaTea.Controllers
             Session["cart"] = items;
             return RedirectToAction("Index");
         }
-
         public ActionResult Delete(int id)
         {
             List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
@@ -165,29 +162,31 @@ namespace TeaShop_BetaTea.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrder(string inputPhone, string inputName, string inputStreet, string inputHouse, string inputApartment, string payment)
         {
+            using (DataContext db = new DataContext())
+            {
+            OrderModel order = new OrderModel();
             if (User.Identity.IsAuthenticated)
             {
-                OrderModel order = new OrderModel();
                 order.UserId = User.Identity.GetUserId();
-                order.TotalPrice = (decimal)Session["cartTotal"];
-                order.FirstName = inputName;
-                order.Street = inputStreet;
-                order.House = inputHouse;
-                order.Apartament = inputApartment;
-                order.Payment = payment;
-                order.Phone = inputPhone;
-                order.Date = DateTime.Now;
-                using (DataContext db = new DataContext())
+            }
+            order.TotalPrice = (decimal)Session["cartTotal"];
+            order.FirstName = inputName;
+            order.Street = inputStreet;
+            order.House = inputHouse;
+            order.Apartament = inputApartment;
+            order.Payment = payment;
+            order.Phone = inputPhone;
+            order.Date = DateTime.Now;
+            order.Status = "В обработке";
+                db.Orders.Add(order);
+                db.SaveChanges();
+                List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
+                for (int i = 0; i < items.Count; i++)
                 {
-                    db.Orders.Add(order);
-                    db.SaveChanges();
-                    List<CartItemModel> items = (List<CartItemModel>)Session["cart"];
-                    for (int i = 0; i < items.Count; i++)
-                    {
-                        items[i].Order = order;
-                    }
-                    db.SaveChanges();
+                    items[i].OrderId = order.OrderId;
+                    db.CartItems.Add(new CartItemModel { OrderId = order.OrderId, ProductId = items[i].ProductId, Quantity = items[i].Quantity});
                 }
+                db.SaveChanges();
             }
             Session["cart"] = null;
             return RedirectToAction("Index", new { orderCreated = "Yes" });

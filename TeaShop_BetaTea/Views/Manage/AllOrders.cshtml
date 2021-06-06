@@ -1,0 +1,92 @@
+﻿@model IEnumerable<TeaShop_BetaTea.Models.OrderModel>
+
+@{
+    ViewBag.Title = "AllOrders";
+}
+
+<div class="container text-center mt-3">
+    <h2 class="mb-4">Заказы</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                Адрес
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @item.Street, @item.House-@item.Apartament
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Payment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice) р.
+        </td>
+        <td>
+            @using (Html.BeginForm("ChangeStatus", "Manage", FormMethod.Post))
+            {
+                <input type="hidden" name="orderId" value="@item.OrderId" />
+                <select name="status" id="status" class="custom-select" onchange="this.form.submit();"
+                        @("Доставлен" == item.Status ? "style=color:dodgerblue" : "")
+                        @("Отправлен" == item.Status ? "style=color:hotpink" : "")
+                        @("В обработке" == item.Status ? "style=color:limegreen" : "")
+                        @("Отменен" == item.Status ? "style=color:darkgray" : "")>
+                    <option style="color:#212529" value="Доставлен" @("Доставлен" == item.Status ? "selected='selected'" : "")>Доставлен</option>
+                    <option style="color:#212529" value="Отправлен" @("Отправлен" == item.Status ? "selected='selected'" : "")>Отправлен</option>
+                    <option style="color:#212529" value="В обработке" @("В обработке" == item.Status ? "selected='selected'" : "")>В обработке</option>
+                    <option style="color:#212529" value="Отменен" @("Отменен" == item.Status ? "selected='selected'" : "")>Отменен</option>
+                </select>
+            }
+        </td>
+        <td>
+            <i onclick="showProduct(@(item.OrderId))" data-toggle="collapse" data-target="#collapse@(item.OrderId)" class="fa fa-lg fa-angle-down" style="cursor:pointer;"></i>
+        </td>
+
+    </tr>
+            <tr>
+                <td colspan=7>
+                    <div class="collapse" id="collapse@(item.OrderId)">
+                        <div class="card card-body">
+                            @Html.Action("ProductsFromOrder", new { orderId = item.OrderId })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<script>
+</script>

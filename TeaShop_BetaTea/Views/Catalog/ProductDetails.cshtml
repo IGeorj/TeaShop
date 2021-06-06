@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="col">
                                 <strong>Бренд:</strong><br>
-                                @Model.Products.First().Brand
+                                @Model.Products.First().Brand.Name
                             </div>
                             <div class="col">
                                 <strong>Тип:</strong><br>
@@ -88,8 +88,12 @@
                         <h4 class="mt-2">Цена: <span>@Html.DisplayFor(modelItem => item.Price) р.</span></h4>
 
                         <div class="action mt-3">
-                            <a class="btn btn-success" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a>
-                            <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+                            @using (Html.BeginForm("Like", "Catalog", FormMethod.Post))
+                            {
+                                <input hidden name="ProductId" id="ProductId" value="@(item.ProductId)" />
+                                <a class="btn btn-success" href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })">В корзину »</a>
+                                <button class="like btn btn-default" type="submit"><span class="fa fa-heart" @(Model.Like == true ? "style=color:red" : "")></span></button>
+                            }
                         </div>
                     </div>
                 }
@@ -139,37 +143,45 @@
         <h4 class="font-weight-bold mt-5">Отзывы</h4>
         foreach (var item in Model.Reviews)
         {
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src="@Url.Content(item.User.Avatar)" class="img img-fluid rounded-circle" />
-                        <p class="text-secondary text-center">@Html.DisplayFor(modelItem => item.Date)</p>
-                    </div>
-                    <div class="col-md-10">
-                        <p>
-                            <strong>@item.User.UserName</strong>
-                            <div class="stars float-right">
-                                @for (int i = 0; i < 5; i++)
-                                {
-                                    if (i < item.Rate)
-                                    {
-                                        <span class="fa fa-star" style="color:orange"></span>
-                                    }
-                                    else
-                                    {
-                                        <span class="fa fa-star"></span>
-                                    }
-                                }
-                            </div>
-
-                        </p>
-                        <div class="clearfix"></div>
-                        <p>@item.Description</p>
-                        <p>
-                        </p>
-                    </div>
+<div class="card-body">
+    <div style="display: flex; justify-content: flex-end">
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("DeleteReview", "Catalog", new { rvid = item.ReviewId, prid = item.ProductId})" class="close" style="outline:none; color:red; position:relative; align-items:center" aria-label="Close" onclick="return confirm('Вы уверены?')">
+                <span aria-hidden="true">&times;</span>
+            </a>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <img src="@Url.Content(item.User.Avatar)" class="img img-fluid rounded-circle" />
+            <p class="text-secondary text-center">@Html.DisplayFor(modelItem => item.Date)</p>
+        </div>
+        <div class="col-md-10">
+            <p>
+                <strong>@item.User.UserName</strong>
+                <div class="stars float-right">
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        if (i < item.Rate)
+                        {
+                            <span class="fa fa-star" style="color:orange"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
                 </div>
-            </div>
+
+            </p>
+            <div class="clearfix"></div>
+            <p>@item.Description</p>
+            <p>
+            </p>
+        </div>
+    </div>
+</div>
         }
     }
     else

@@ -207,13 +207,31 @@
     <Compile Include="Migrations\202105211358490_ProductSize.Designer.cs">
       <DependentUpon>202105211358490_ProductSize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105301956083_LikeSystem.cs" />
+    <Compile Include="Migrations\202105301956083_LikeSystem.Designer.cs">
+      <DependentUpon>202105301956083_LikeSystem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106041532342_ADDBrand.cs" />
+    <Compile Include="Migrations\202106041532342_ADDBrand.Designer.cs">
+      <DependentUpon>202106041532342_ADDBrand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106041538194_productBrand.cs" />
+    <Compile Include="Migrations\202106041538194_productBrand.Designer.cs">
+      <DependentUpon>202106041538194_productBrand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106041641258_OrderStatus.cs" />
+    <Compile Include="Migrations\202106041641258_OrderStatus.Designer.cs">
+      <DependentUpon>202106041641258_OrderStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BrandModel.cs" />
     <Compile Include="Models\CartItemModel.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\FilterRepository.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LikeModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
@@ -408,6 +426,11 @@
     <Content Include="Views\Manage\OrdersHistory.cshtml" />
     <Content Include="Views\Manage\ChangePersonalData.cshtml" />
     <Content Include="Views\Manage\ReviewsHistory.cshtml" />
+    <Content Include="Views\Catalog\Stars.cshtml" />
+    <Content Include="Views\Manage\Favorites.cshtml" />
+    <Content Include="Views\Catalog\AddBrand.cshtml" />
+    <Content Include="Views\Manage\AllOrders.cshtml" />
+    <Content Include="Views\Manage\ProductsFromOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -441,6 +464,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105211358490_ProductSize.resx">
       <DependentUpon>202105211358490_ProductSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105301956083_LikeSystem.resx">
+      <DependentUpon>202105301956083_LikeSystem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106041532342_ADDBrand.resx">
+      <DependentUpon>202106041532342_ADDBrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106041538194_productBrand.resx">
+      <DependentUpon>202106041538194_productBrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106041641258_OrderStatus.resx">
+      <DependentUpon>202106041641258_OrderStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

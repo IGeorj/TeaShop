@@ -18,9 +18,6 @@
                 Адрес
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apartament)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Payment)
             </th>
             <th>
@@ -29,34 +26,63 @@
             <th>
                 @Html.DisplayNameFor(model => model.TotalPrice)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @item.Street, @item.House
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apartament)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Payment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPrice) р.
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @item.Street, @item.House-@item.Apartament
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Payment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice) р.
+        </td>
+        <td>
+            @if (item.Status == "Доставлен")
+            {
+                <span style="color:dodgerblue">
+                    @Html.DisplayFor(modelItem => item.Status, new { @class = "test" })
+                </span>
+            }
+            @if (item.Status == "В обработке")
+            {
+                <span style="color:limegreen">
+                    @Html.DisplayFor(modelItem => item.Status, new { @class = "test" })
+                </span>
+
+            }
+            @if (item.Status == "Отменен")
+            {
+                <span style="color:darkgray">
+                    @Html.DisplayFor(modelItem => item.Status, new { @class = "test" })
+                </span>
+
+            }
+            @if (item.Status == "Отправлен")
+            {
+                <span style="color:hotpink">
+                    @Html.DisplayFor(modelItem => item.Status, new { @class = "test" })
+                </span>
+
+            }
+        </td>
+    </tr>
         }
 
     </table>

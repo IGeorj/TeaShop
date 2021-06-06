@@ -35,7 +35,11 @@
                         @Html.ActionLink("Отзывы", "ReviewsHistory", "", new { @class = "font-weight-bold" })
                     </span>@ViewBag.ReviewsCounter
                 </li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Избранное</strong></span> 0</li>
+                <li class="list-group-item text-right">
+                    <span class="pull-left">
+                        @Html.ActionLink("Избранное", "Favorites", "", new { @class = "font-weight-bold" })
+                    </span>@ViewBag.FavoritesCounter
+                </li>
             </ul>
 
 
@@ -57,12 +61,12 @@
                                 <input readonly value="@ViewBag.Address" type="text" class="form-control-plaintext  text-center" name="address" id="address">
                             </div>
                         </div>
-                            <div class="centered">
-                                    @Html.ActionLink("Изменить", "ChangePersonalData", "", new { @class = "btn btn-success centered" })
+                        <div class="centered">
+                            @Html.ActionLink("Изменить", "ChangePersonalData", "", new { @class = "btn btn-success centered" })
 
-                                @* <a class="btn btn-success" href="@Html.Action("ChangePassword", "Manage")"><i class="fa fa-save"></i> Сохранить</a>*@
-                                @*<button class="btn btn" type="reset"><i class="fa fa-repeat"></i> Сбросить</button>*@
-                            </div>
+                            @* <a class="btn btn-success" href="@Html.Action("ChangePassword", "Manage")"><i class="fa fa-save"></i> Сохранить</a>*@
+                            @*<button class="btn btn" type="reset"><i class="fa fa-repeat"></i> Сбросить</button>*@
+                        </div>
                     </div>
 
                     <div class="row centered">
@@ -101,6 +105,22 @@
                             @*<button class="btn btn" type="reset"><i class="fa fa-repeat"></i> Сбросить</button>*@
                         </div>
                     </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <label class="col-form-label centered" for="phone"><h4>Cписок всех заказов</h4></label>
+                                <div class="centered">
+                                    @Html.ActionLink("Просмотреть", "AllOrders", "", new { @class = "btn btn-success centered" })
+                                </div>
+
+                                @* <a class="btn btn-success" href="@Html.Action("ChangePassword", "Manage")"><i class="fa fa-save"></i> Сохранить</a>*@
+                                @*<button class="btn btn" type="reset"><i class="fa fa-repeat"></i> Сбросить</button>*@
+                            </div>
+                        </div>
+
+                    }
                 </div><!--/tab-pane-->
             </div><!--/tab-content-->
         </div><!--/col-9-->

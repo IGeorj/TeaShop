@@ -27,8 +27,7 @@ namespace TeaShop_BetaTea.Controllers
                     searchString = searchString.ToLower();
                     model = model.Where(
                         x => x.Title.ToLower().Contains(searchString) ||
-                        x.Topic.ToLower().Contains(searchString) ||
-                        x.ShortDescription.ToLower().Contains(searchString))
+                        x.Topic.ToLower().Contains(searchString))
                         .ToList();
                 }
             }

@@ -11,6 +11,8 @@ namespace TeaShop_BetaTea.Models
         public DbSet<ReviewModel> Reviews { get; set; }
         public DbSet<CartItemModel> CartItems { get; set; }
         public DbSet<OrderModel> Orders { get; set; }
+        public DbSet<LikeModel> Likes { get; set; }
+        public DbSet<BrandModel> Brands { get; set; }
 
     }
 }
