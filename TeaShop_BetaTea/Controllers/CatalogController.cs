@@ -49,7 +49,8 @@ namespace TeaShop_BetaTea.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     model.Products = model.Products.Where(
-                        x => x.Name.Contains(searchString))
+                        x => x.Name.ToLower().Contains(searchString.ToLower()
+                        ))
                         .ToList();
                 }
                 switch (sortBy)
