@@ -70,10 +70,11 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12">
-                        @Html.LabelFor(model => model.Filters.BrandList, "Бренд", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Product.Brand.Name, "Бренд", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="row align-items-center">
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.Product.Brand, new SelectList(Model.Filters.BrandList.Items), new { @class = "custom-select" })
+                                @Html.DropDownListFor(model => model.Product.BrandId, ViewBag.Brands as SelectList, new { @class = "custom-select", required = "true", @onchange = "checkCategory()" })
+                                @Html.ValidationMessageFor(model => model.Product.BrandId, "", new { @class = "text-danger" })
                             </div>
                             <a href="@Url.Action("AddBrand")" class="fa fa-plus col-md-1" style="color:limegreen"></a>
                         </div>

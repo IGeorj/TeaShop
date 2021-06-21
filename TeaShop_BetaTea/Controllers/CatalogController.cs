@@ -162,7 +162,9 @@ namespace TeaShop_BetaTea.Controllers
                 model.Filters.BrandList = new SelectList(db.Brands.Select(x => x.Name).ToList());
             }
             SelectList сtg = new SelectList(ctx.Categories, "CategoryId", "Name");
+            SelectList brd = new SelectList(ctx.Brands, "BrandId", "Name");
             ViewBag.Categories = сtg;
+            ViewBag.Brands = brd;
             return View(model);
         }
 
