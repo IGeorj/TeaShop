@@ -4,9 +4,9 @@
 }
 
 <div class="container mt-3">
-    <p class="text-success text-center">@ViewBag.StatusMessage</p>
+    <h4 class="text-success text-center">@ViewBag.StatusMessage</h4>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4 col-md-3">
             <!--left col-->
             <div class="text-center">
                 @using (Html.BeginForm("ChangeAvatar", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -14,7 +14,7 @@
                     <div class="row centered">
                         <div class="col-sm-10"><h1>Аватар</h1></div>
                     </div>
-                    <img id="output" style="min-height: 192px; min-width: 192px; max-height:192px; max-width: 192px" src="@Url.Content(ViewBag.Avatar)" class="img-thumbnail" alt="avatar">
+                    <img id="output" style="min-height: 192px; min-width: 192px; max-height:192px; max-width: 192px" src="@Url.Content(ViewBag.Avatar)" class="img-thumbnail img-fluid" alt="avatar">
                     <div class="custom-file-upload mt-2">
                         <label for="file-upload" class="custom-file-upload1">
                             <i class="fa fa-cloud-upload"></i> Изменить изображение
@@ -44,7 +44,7 @@
 
 
         </div><!--/col-3-->
-        <div class="col-sm-9">
+        <div class="col-sm-7 col-md-9">
 
             <div class="">
                 <div class="tab-pane active" id="home">

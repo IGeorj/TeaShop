@@ -9,9 +9,9 @@
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-        <h4>Создание новой учетной записи</h4>
+        <h4 class="centered">Создание новой учетной записи</h4>
         <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.ValidationSummary("", new { @class = "text-danger centered" })
         <div class="form-group">
             @Html.LabelFor(m => m.Email, new { @class = "centered" })
             <div class="col-xs-6 col-xs-offset-3 centered">

@@ -7,7 +7,7 @@
 <div class="container text-center mt-3">
     <h2 class="mb-4">Заказы</h2>
 
-    <table class="table">
+    <table class="table table-responsive">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
@@ -58,7 +58,7 @@
             @using (Html.BeginForm("ChangeStatus", "Manage", FormMethod.Post))
             {
                 <input type="hidden" name="orderId" value="@item.OrderId" />
-                <select name="status" id="status" class="custom-select" onchange="this.form.submit();"
+                <select name="status" id="status" class="custom-status" onchange="this.form.submit();"
                         @("Доставлен" == item.Status ? "style=color:dodgerblue" : "")
                         @("Отправлен" == item.Status ? "style=color:hotpink" : "")
                         @("В обработке" == item.Status ? "style=color:limegreen" : "")

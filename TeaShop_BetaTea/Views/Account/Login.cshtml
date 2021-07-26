@@ -11,21 +11,21 @@
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <h4>Используйте для входа свою учетную запись</h4>
+                    <h4 class="centered">Используйте для входа свою учетную запись</h4>
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(m => m.Email, new { @class = "centered" })
-                        <div class="centered">
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger centered mb-2" })
+                        <div class="row centered">
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Password, new { @class = "centered" })
-                        <div class="centered">
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger centered mb-2" })
+                        <div class="row centered">
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">

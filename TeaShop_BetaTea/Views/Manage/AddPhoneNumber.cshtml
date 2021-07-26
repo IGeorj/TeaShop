@@ -4,26 +4,60 @@
 }
 <div class="container mt-3">
 
-@using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h3 class="text-center">Изменение номера телефона</h3>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Number, new { @class = "centered" })
-        <div class="centered">
-            @Html.TextBoxFor(m => m.Number, new { @class = "form-control text-center" })
+    @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h3 class="text-center">Изменение номера телефона</h3>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Number, new { @class = "centered" })
+            <div class="centered">
+                @Html.TextBoxFor(m => m.Number, new { @class = "form-control text-center tel" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="centered">
-            <input type="submit" class="btn btn-outline-dark" value="Отправить" />
+        <div class="form-group">
+            <div class="centered">
+                <input type="submit" class="btn btn-outline-dark" value="Отправить" />
+            </div>
         </div>
-    </div>
-}
+    }
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            [].forEach.call(document.querySelectorAll('.tel'), function (input) {
+                var keyCode;
+                function mask(event) {
+                    event.keyCode && (keyCode = event.keyCode);
+                    var pos = this.selectionStart;
+                    if (pos < 3) event.preventDefault();
+                    var matrix = "+375 (__) ___-__-__",
+                        i = 0,
+                        def = matrix.replace(/\D/g, ""),
+                        val = this.value.replace(/\D/g, ""),
+                        new_value = matrix.replace(/[_\d]/g, function (a) {
+                            return i < val.length ? val.charAt(i++) || def.charAt(i) : a
+                        });
+                    i = new_value.indexOf("_");
+                    if (i != -1) {
+                        i < 5 && (i = 3);
+                        new_value = new_value.slice(0, i)
+                    }
+                    var reg = matrix.substr(0, this.value.length).replace(/_+/g,
+                        function (a) {
+                            return "\\d{1," + a.length + "}"
+                        }).replace(/[+()]/g, "\\$&");
+                    reg = new RegExp("^" + reg + "$");
+                    if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
+                    if (event.type == "blur" && this.value.length < 5) this.value = ""
+                }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                input.addEventListener("input", mask, false);
+                input.addEventListener("focus", mask, false);
+                input.addEventListener("blur", mask, false);
+                input.addEventListener("keydown", mask, false)
+
+            });
+
+        });
+    </script>
 </div>

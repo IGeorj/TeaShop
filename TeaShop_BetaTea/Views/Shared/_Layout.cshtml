@@ -30,7 +30,7 @@
                     </li>
                     <li class="nav-item" style="margin-top:1px">
                         <div class="btn-group">
-                            @Html.ActionLink("Каталог", "Index", "Catalog", new { area = "" }, new { @class = "btn ", style = "background-color: #212121; color:rgba(255,255,255,0.5)" })
+                            @Html.ActionLink("Каталог", "Index", "Catalog", new { area = "" }, new { @class = "btn pl-0 pl-md-2", style = "background-color: #212121; color:rgba(255,255,255,0.5)" })
                             <button type="button" class="btn dropdown-toggle dropdown-toggle-split" style="background-color: #212121; color:rgba(255,255,255,0.5)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -79,34 +79,10 @@
                     </div>
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <h4>Контакты</h4>
-                        <div class="box">
-                            <table class="info">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" class="company-name">
-                                            Отдел продаж:
-                                        </td>
-                                    </tr>
-                                    <tr class="tr">
-                                    </tr>
-                                    <tr class="tr">
-                                        <td class="left">
-                                            Телефон:&nbsp;&nbsp;<br>
-                                        </td>
-                                        <td class="right">
-                                            <a href="tel:"></a>+375 (29) 156-02-00
-                                        </td>
-                                    </tr>
-                                    <tr class="tr">
-                                        <td class="left">
-                                            E-mail:&nbsp; &nbsp;
-                                        </td>
-                                        <td class="right">
-                                            <a href="mailto:beta.minsk@mail.ru">information@betatea.ru</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div>
+                            <div>Отдел продаж:</div>
+                            <div>Телефон: <a>+375 (29) 156-02-00</a></div>
+                            <div>E-mail:  <a href="mailto:beta.minsk@mail.ru">information@betatea.ru</a></div>
                         </div>
                         <br>
                     </div>
